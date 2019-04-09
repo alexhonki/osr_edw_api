@@ -1,7 +1,7 @@
 {
 	"authenticationMethod": "route",
 	"routes": [{
-		"source": "/node(.*)",
+		"source": "/nodes(.*)",
 		"destination": "Services_url",
 		"csrfProtection": true,
 		"authenticationType": "xsuaa",
