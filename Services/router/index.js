@@ -14,7 +14,7 @@ module.exports = function(app) {
 //	};
 
 	// Set URL paths
-	app.use("/node", require("./routes/Flexible_Debt/sampleNodeService")());
+	app.use("/node", require("./routes/FlexibleDebt/sampleNodeService")());
 
 	// For Swagger API Doc and resources
 //	app.use("/api/static", express.static("api"));

@@ -1,11 +1,34 @@
 {
-	"authenticationMethod": "none",
-	"routes": [
-				{
-					"source": "/node(.*)",
-					"destination": "Services_url",
-					"csrfProtection": true,
-					"authenticationType": "none"
-				}
-			]
+	"authenticationMethod": "route",
+	"routes": [{
+		"source": "/node(.*)",
+		"destination": "Services_url",
+		"csrfProtection": true,
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.VIEWER"
+	}, {
+		"source": "/osr/api(.*)",
+		"destination": "Services_url",
+		"csrfProtection": true,
+		"authenticationType": "xsuaa"
+	}, {
+		"source": "/api/static(.*)",
+		"destination": "Services_url",
+		"csrfProtection": true,
+		"authenticationType": "xsuaa"
+	}, {
+		"source": "/osr/api/xsc/(.*)(.xsjs)",
+		"destination": "Services_url",
+		"authenticationType": "xsuaa",
+		"csrfProtection": true,
+		"scope": "$XSAPPNAME.VIEWER"
+	}, {
+		"source": "^/(.*)$",
+		"localDir": "resources",
+		"scope": ["$XSAPPNAME.VIEWER"],
+		"replace": {
+			"pathSuffixes": ["index.html"],
+			"vars": ["ui5liburl"]
+		}
+	}]
 }

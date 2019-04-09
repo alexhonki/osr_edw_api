@@ -1,12 +1,11 @@
 ID: OSR_API
 _schema-version: '2.1'
 version: 0.0.1
-
 modules:
- - name: OSR_API-Persistence
-   type: hdb
-   path: Persistence
-   requires:
+  - name: OSR_API-Persistence
+    type: hdb
+    path: Persistence
+    requires:
       - name: OsrApiContainer
         properties:
           TARGET_CONTAINER: '~{hdi-container-name}'
@@ -15,33 +14,55 @@ modules:
         properties:
           key: logical-OSR-EDW-PLATFORM-grantor
           service: '~{OSR-EDW-PLATFORM-grantor-service}'
- - name: OSR_API-Services
-   type: nodejs
-   path: Services
-   provides:
-    - name: Services_api
-      properties:
-         url: ${default-url}
-
- - name: OSR_API-Web
-   type: html5
-   path: Web
-   requires:
-     - name: Services_api
-       properties:
-         name: Services_url
-         url: '~{url}'
-         forwardAuthToken: false
-       group: destinations   
-
+  - name: OSR_API-Services
+    type: nodejs
+    path: Services
+    provides:
+      - name: Services_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: OsrApiContainer
+      - name: OSR_API-uaa
+  - name: OSR_API-Web
+    type: html5
+    path: Web
+    requires:
+      - name: Services_api
+        properties:
+          name: Services_url
+          url: '~{url}'
+          forwardAuthToken: true
+          timeout: 240000
+        group: destinations
+      - name: OSR_API-uaa
+      - name: sapui5-lib
+        properties:
+          ui5liburl: '~{url}'
 resources:
   - name: OsrApiContainer
     properties:
       hdi-container-name: '${service-name}'
     type: com.sap.xs.hdi-container
+    parameters:
+      provider-id: 'com.sap.ui5.dist.sapui5-dist-xsa.XSAC_UI5_FESV4:sapui5_fesv4'
+      version: '>=1.52.11'
   - name: OSR-EDW-PLATFORM-grantor
     properties:
       OSR-EDW-PLATFORM-grantor-service: '${service-name}'
     parameters:
       service-name: OSR_EDW_PLATFORM-deploy
-    type: org.cloudfoundry.existing-service    
+    type: org.cloudfoundry.existing-service
+  - name: sapui5-lib
+    type: configuration
+    description: SAPUI5 as a central service with version of min 1.52.11
+    parameters:
+      provider-id: 'com.sap.ui5.dist.sapui5-dist-xsa.XSAC_UI5_FESV4:sapui5_fesv4'
+      version: '>=1.52.11'
+  - name: OSR_API-uaa
+    type: com.sap.xs.uaa
+    description: UAA for this particular MTA project
+    parameters:
+      service-name: OSR_API-uaa
+      service-plan: space
+      path: ./xs-security.json

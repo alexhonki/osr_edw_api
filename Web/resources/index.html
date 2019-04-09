@@ -1,31 +1,40 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
-<title>Web</title>
-<!-- 1.) Load SAPUI5 (from a remote server), select theme and control library -->
-<script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
-	id="sap-ui-bootstrap" data-sap-ui-libs="sap.m"
-	data-sap-ui-theme="sap_bluecrystal">
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8">
+
+		<title>OSR API</title>
+		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+
+		<script id="sap-ui-bootstrap"
+ 			src="{{{ui5liburl}}}/resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.m"
+			data-sap-ui-theme="sap_belize"
+			data-sap-ui-compatVersion="edge"
+			data-sap-ui-resourceroots='{"osr.api": "./"}'
+			data-sap-ui-bindingSyntax="complex"
+			data-sap-ui-preload="async">
+		</script> 
+
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+
+		<script>
+			sap.ui.getCore().attachInit(function() {
+				new sap.m.Shell({
+					app: new sap.ui.core.ComponentContainer({
+						height : "100%",
+						name : "osr.api"
+					}),
+					appWidthLimited: true
+				}).placeAt("content");
+			});
 		</script>
-<!-- 2.) Create a UI5 button and place it onto the page -->
-<script>
-	// create the button instance
-	var myButton = new sap.m.Button("btn");
+	</head>
 
-	// set properties, e.g. the text (there is also a shorter way of setting several properties)
-	myButton.setText("Hello World!");
+	<body class="sapUiBody" id="content">
+	</body>
 
-	// attach an action to the button's "press" event (use jQuery to fade out the button)
-	myButton.attachPress(function(){$("#btn").fadeOut()});
-
-	// place the button into the HTML element defined below
-	myButton.placeAt("uiArea");
-	</script>
-</head>
-<body class="sapUiBody">
-	<!-- This is where you place the UI5 button -->
-	<div id="uiArea"></div>
-</body>
 </html>

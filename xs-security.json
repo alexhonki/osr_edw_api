@@ -1,0 +1,12 @@
+{
+	"xsappname": "OSR_API",
+	"scopes": [{
+		"name": "$XSAPPNAME.VIEWER",
+		"description": "OSR API Universal Endpoint"
+	}],
+	"role-templates": [{
+		"name": "OSR_API",
+		"description": "Role OSR API for all",
+		"scope-references": ["$XSAPPNAME.VIEWER"]
+	}]
+}

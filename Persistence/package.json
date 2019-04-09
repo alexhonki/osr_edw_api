@@ -1,9 +1,12 @@
 {
-    "name": "deploy",
-    "dependencies": {
-        "@sap/hdi-deploy": "3.7.0"
-    },
-    "scripts": {
-        "start": "node node_modules/@sap/hdi-deploy/deploy.js"
-    }
+	"name": "deploy",
+	"dependencies": {
+		"@sap/hdi-deploy": "3.7.0"
+	},
+	"scripts": {
+		"start": "node node_modules/@sap/hdi-deploy/deploy.js --auto-undeploy"
+	},
+	"engines": {
+		"node": "8.x"
+	}
 }

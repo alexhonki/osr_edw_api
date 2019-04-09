@@ -1,0 +1,296 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is an API Services for all SCV Organisation Explorer related queries.",
+    "version": "1.0.0",
+    "title": "SCV Organisation Services",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "stefanus.husin@treasury.qld.gov.au"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "osr.qld.gov.au",
+  "basePath": "/node/org/services/",
+  "tags": [
+    {
+      "name": "Organisation",
+      "description": "Access to Organisation object",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://tbc.io"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/org/current/{ip_scv_id}": {
+      "get": {
+        "tags": [
+          "org"
+        ],
+        "summary": "Returns an organisation detail",
+        "description": "Returns an object consisting all the organisation details",
+        "operationId": "getOrgDetail",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ip_scv_id",
+            "in": "path",
+            "description": "SCV ID of Org that needs to be fetched",
+            "required": true,
+            "type": "string",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Organisation"
+            }
+          },
+          "400": {
+            "description": "Invalid SCV ID Supplied"
+          },
+          "404": {
+            "description": "Organisation not found"
+          }
+        }
+      }
+    },
+    "/org/history/{ip_scv_id}": {
+      "get": {
+        "tags": [
+          "org"
+        ],
+        "summary": "Returns the organisation history tab details",
+        "description": "Returns the organisation history tab details",
+        "operationId": "getOrderById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ip_scv_id",
+            "in": "path",
+            "description": "SCV ID of Org that needs to be fetched",
+            "required": true,
+            "type": "string",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Organisation"
+            }
+          },
+          "400": {
+            "description": "Invalid SCV ID Supplied"
+          },
+          "404": {
+            "description": "Organisation not found"
+          }
+        }
+      }
+    },
+    "/org/registration/{ip_scv_id}": {
+      "get": {
+        "tags": [
+          "org"
+        ],
+        "summary": "Return the organisation registration details",
+        "description": "Return the organisation registration details",
+        "operationId": "getRegistrationById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ip_scv_id",
+            "in": "path",
+            "description": "SCV ID of Org that needs to be fetched",
+            "required": true,
+            "type": "string",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Organisation"
+            }
+          },
+          "400": {
+            "description": "Invalid SCV ID Supplied"
+          },
+          "404": {
+            "description": "Organisation not found"
+          }
+        }
+      }
+    },
+    "/org/akanames/{ip_scv_id}": {
+      "get": {
+        "tags": [
+          "org"
+        ],
+        "summary": "Return the organisation aka names tab",
+        "description": "Return the organisation aka names tab",
+        "operationId": "getAkaNamesById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ip_scv_id",
+            "in": "path",
+            "description": "SCV ID of Org that needs to be fetched",
+            "required": true,
+            "type": "string",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Organisation"
+            }
+          },
+          "400": {
+            "description": "Invalid SCV ID Supplied"
+          },
+          "404": {
+            "description": "Organisation not found"
+          }
+        }
+      }
+    },
+    "/org/contact/{ip_scv_id}": {
+      "get": {
+        "tags": [
+          "org"
+        ],
+        "summary": "Return the organisation contact numbers",
+        "description": "Return the organisation contact numbers",
+        "operationId": "getContactById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ip_scv_id",
+            "in": "path",
+            "description": "SCV ID of Org that needs to be fetched",
+            "required": true,
+            "type": "string",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Organisation"
+            }
+          },
+          "400": {
+            "description": "Invalid SCV ID Supplied"
+          },
+          "404": {
+            "description": "Organisation not found"
+          }
+        }
+      }
+    },
+    "/org/datainfo/{ip_scv_id}": {
+      "get": {
+        "tags": [
+          "org"
+        ],
+        "summary": "Return the organisation data info tab",
+        "description": "Return the organisation data info tab",
+        "operationId": "getDataInfoById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ip_scv_id",
+            "in": "path",
+            "description": "SCV ID of Org that needs to be fetched",
+            "required": true,
+            "type": "string",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Organisation"
+            }
+          },
+          "400": {
+            "description": "Invalid SCV ID Supplied"
+          },
+          "404": {
+            "description": "Organisation not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Organisation": {
+      "type": "object",
+      "properties": {
+        "PARTNER_ID": {
+          "type": "string",
+          "format": "binary"
+        },
+        "SOURCE": {
+          "type": "string"
+        },
+        "SCV_ID": {
+          "type": "string"
+        },
+        "NAME_ORG1": {
+          "type": "string"
+        },
+        "NAME_ORG2": {
+          "type": "string"
+        },
+        "NAME_ORG3": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Organisation"
+      }
+    }
+  }
+}
