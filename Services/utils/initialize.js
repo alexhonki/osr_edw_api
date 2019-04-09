@@ -44,7 +44,7 @@ module.exports = {
 		var xsjs = require("@sap/xsjs");
 		var xsenv = require("@sap/xsenv");
 		var options = {
-			redirectUrl: "/index.xsjs",
+			redirectUrl: "/osr/api/xsc/index.xsjs",
 			context: {
 				base: global.__base,
 				env: process.env,

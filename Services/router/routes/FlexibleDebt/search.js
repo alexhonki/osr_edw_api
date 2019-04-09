@@ -8,7 +8,7 @@ module.exports = function() {
 
 	//root entry path for placeholder
 	app.get("/", function(req, res) {
-		res.send("Instantiation of Services search");
+		res.send("Instantiation of Search module - Stef entry");
 	});
 
 	return app;
