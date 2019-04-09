@@ -1,0 +1,38 @@
+{
+  "osr.scv.org.foundation.db.propagation.synonyms::RMS_BUT000_ORG": {
+    "target": {
+      "object": "osr.edw.propagation.rms.proxy::CV_BUT000_ORG",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  },
+  "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID": {
+    "target": {
+      "object": "osr.edw.staging.md.rms.proxy::CV_BUT0ID",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  },
+  "osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION": {
+    "target": {
+      "object": "osr.edw.propagation.md.asic.proxy::CV_ORGANISATION",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  },
+  "osr.scv.org.foundation.db.staging.synonyms::ASIC_XREF": {
+    "target": {
+      "object": "osr.edw.staging.md.asic.proxy::CV_XREF",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  },
+  "osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS": {
+    "target": {
+      "object": "osr.edw.propagation.md.asic.proxy::CV_ADDRESS",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  },
+  "osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON": {
+    "target": {
+      "object": "osr.edw.propagation.md.asic.proxy::CV_PERSON",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  }
+}

@@ -1,0 +1,202 @@
+FUNCTION "OSR_API.Persistence.Functions.Flexible_Debt::TF_RetrieveDirectors"( 
+	IN I_BP  NVARCHAR(11),
+	IN I_ABN NVARCHAR(11),
+	IN I_ACN NVARCHAR(9)
+	
+	
+)
+    	
+	RETURNS TABLE (
+		"ORG_NUMBER"						NVARCHAR(9),
+		"ABN"								NVARCHAR(11),
+		"STD_FIRM"							NVARCHAR(100),
+		"ORG_STATUS"						NVARCHAR(4),
+		"ORG_END_DATE"						INTEGER,
+		"REGN_END_DT"						DATE,
+		"OWNER_SOURCE_ID"					NVARCHAR(10),
+		"XREF_ROLE"							NVARCHAR(2),
+		"MEMBER_SOURCE_ID"					NVARCHAR(10),
+		"ROLE_START_DT"						DATE,
+		"XREF_END_DT"						DATE,
+--		"ADDRESS_NUM"						INTEGER,
+		"REC_END_DATE"						INTEGER,
+		"STD_ADDR_COUNTRY_NAME"				NVARCHAR(100),
+		"STD_ADDR_LOCALITY"					NVARCHAR(128),
+		"STD_ADDR_REGION"					NVARCHAR(128),
+		"STD_ADDR_POSTCODE1"				NVARCHAR(10),
+		"STD_ADDR_POSTCODE2"				NVARCHAR(5),
+		"STD_ADDR_POSTCODE_FULL"			NVARCHAR(20),
+		"STD_ADDR_ADDRESS_DELIVERY"			NVARCHAR(256),
+		"STD_ADDR_PRIM_ADDRESS"				NVARCHAR(256),
+		"STD_ADDR_BUILDING_NAME"			NVARCHAR(100),
+		"STD_ADDR_PRIM_NAME"				NVARCHAR(128),
+		"STD_ADDR_PRIM_NAME_FULL"			NVARCHAR(128),
+		"STD_ADDR_PRIM_TYPE"				NVARCHAR(40),
+		"STD_ADDR_PRIM_PREFIX"				NVARCHAR(40),
+		"STD_ADDR_PRIM_POSTFIX"				NVARCHAR(40),
+		"STD_ADDR_PRIM_NUMBER"				NVARCHAR(20),
+		"STD_ADDR_SINGLE_ADDRESS"			NVARCHAR(256),
+		"STD_ADDR_COUNTRY_2CHAR"			NVARCHAR(2),
+		"PERSON_NUM"						NVARCHAR(9),
+		"BIRTH_DT"							DATE,
+		"STD_PERSON_GN"						NVARCHAR(50),
+		"STD_PERSON_FN_FULL"				NVARCHAR(80)
+   )
+   
+   LANGUAGE SQLSCRIPT 
+   SQL SECURITY INVOKER AS 
+       
+BEGIN 
+    /*****************************
+        Write your function logic
+    ****************************/
+
+	IF :I_BP != '' and :I_ABN != '' and :I_ACN != ''
+	THEN 
+		lt_rms_list =
+		SELECT 
+		"PARTNER",
+		(CASE WHEN  "TYPE" = 'ZABN' THEN "IDNUMBER" ELSE NULL END) AS ABN,
+		(CASE WHEN  "TYPE" = 'ZACN' THEN "IDNUMBER" ELSE NULL END) AS ACN
+		FROM "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID"
+		where "TYPE" IN ('ZABN','ZACN')
+		AND "PARTNER" = :I_BP
+		AND "IDNUMBER" IN (:I_ABN, :I_ACN);
+
+		ELSE IF :I_BP != '' and :I_ABN != '' and :I_ACN = ''
+		THEN 
+			lt_rms_list =
+			SELECT 
+			"PARTNER",
+			(CASE WHEN  "TYPE" = 'ZABN' THEN "IDNUMBER" ELSE NULL END) AS ABN,
+			(CASE WHEN  "TYPE" = 'ZACN' THEN "IDNUMBER" ELSE NULL END) AS ACN
+			FROM "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID"
+			where "TYPE" IN ('ZABN','ZACN')
+			AND "PARTNER" = :I_BP
+			AND "IDNUMBER"= :I_ABN;
+		
+			ELSE IF :I_BP != '' and :I_ABN = '' and :I_ACN != ''
+			THEN 
+				lt_rms_list =
+				SELECT 
+				"PARTNER",
+				(CASE WHEN  "TYPE" = 'ZABN' THEN "IDNUMBER" ELSE NULL END) AS ABN,
+				(CASE WHEN  "TYPE" = 'ZACN' THEN "IDNUMBER" ELSE NULL END) AS ACN
+				FROM "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID"
+				where "TYPE" IN ('ZABN','ZACN')
+				AND "PARTNER" = :I_BP
+				AND "IDNUMBER"= :I_ACN;
+			
+				ELSE IF :I_BP != '' and :I_ABN = '' and :I_ACN = ''
+				THEN
+					lt_rms_list =
+					SELECT 
+					"PARTNER",
+					(CASE WHEN  "TYPE" = 'ZABN' THEN "IDNUMBER" ELSE NULL END) AS ABN,
+					(CASE WHEN  "TYPE" = 'ZACN' THEN "IDNUMBER" ELSE NULL END) AS ACN
+					FROM "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID"
+					where "TYPE" IN ('ZABN','ZACN')
+					AND "PARTNER" = :I_BP;
+				
+					ELSE IF :I_BP = '' and :I_ABN != '' and :I_ACN != ''
+					THEN
+						lt_rms_list =
+						SELECT 
+						"PARTNER",
+						(CASE WHEN  "TYPE" = 'ZABN' THEN "IDNUMBER" ELSE NULL END) AS ABN,
+						(CASE WHEN  "TYPE" = 'ZACN' THEN "IDNUMBER" ELSE NULL END) AS ACN
+						FROM "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID"
+						where "TYPE" IN ('ZABN','ZACN')
+						AND "IDNUMBER" IN (:I_ABN, :I_ACN);
+					
+						ELSE IF :I_BP = '' and :I_ABN != '' and :I_ACN = ''
+						THEN
+							lt_rms_list =
+							SELECT 
+							"PARTNER",
+							(CASE WHEN  "TYPE" = 'ZABN' THEN "IDNUMBER" ELSE NULL END) AS ABN,
+							(CASE WHEN  "TYPE" = 'ZACN' THEN "IDNUMBER" ELSE NULL END) AS ACN
+							FROM "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID"
+							where "TYPE" IN ('ZABN','ZACN')
+							AND "IDNUMBER" = :I_ABN;						
+						
+						ELSE
+							lt_rms_list =
+							SELECT 
+							"PARTNER",
+							(CASE WHEN  "TYPE" = 'ZABN' THEN "IDNUMBER" ELSE NULL END) AS ABN,
+							(CASE WHEN  "TYPE" = 'ZACN' THEN "IDNUMBER" ELSE NULL END) AS ACN
+							FROM "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID"
+							where "TYPE" IN ('ZABN','ZACN')
+							AND "IDNUMBER" = :I_ACN;						
+						
+						END IF;
+					END IF;
+				END IF;
+			END IF;
+		END IF;
+	END IF;
+
+
+
+
+
+
+RETURN    
+	SELECT DISTINCT
+--		CONCAT('O',RIGHT(CONCAT('0000000000', org."ORG_NUMBER"), 9)) as XREFLink,
+--		org."NAME",
+		org."ORG_NUMBER",
+		org."ABN",
+		org."STD_FIRM",
+		org."ORG_STATUS",
+		org."ORG_END_DATE",
+		org."REGN_END_DT",
+--		xref."NAME",
+		xref."OWNER_SOURCE_ID",
+		xref."XREF_ROLE",
+		xref."MEMBER_SOURCE_ID",
+		xref."ROLE_START_DT",
+		xref."XREF_END_DT",
+--		xref."ADDRESS_NUM",
+		xref."REC_END_DATE",
+--		addr."NAME",
+--		addr."ADDRESS_NUMBER",
+		addr."STD_ADDR_COUNTRY_NAME",
+		addr."STD_ADDR_LOCALITY",
+		addr."STD_ADDR_REGION",
+		addr."STD_ADDR_POSTCODE1",
+		addr."STD_ADDR_POSTCODE2",
+		addr."STD_ADDR_POSTCODE_FULL",
+		addr."STD_ADDR_ADDRESS_DELIVERY",
+		addr."STD_ADDR_PRIM_ADDRESS",
+		addr."STD_ADDR_BUILDING_NAME",
+		addr."STD_ADDR_PRIM_NAME",
+		addr."STD_ADDR_PRIM_NAME_FULL",
+		addr."STD_ADDR_PRIM_TYPE",
+		addr."STD_ADDR_PRIM_PREFIX",
+		addr."STD_ADDR_PRIM_POSTFIX",
+		addr."STD_ADDR_PRIM_NUMBER",
+		addr."STD_ADDR_SINGLE_ADDRESS",
+		addr."STD_ADDR_COUNTRY_2CHAR",
+--		pers."NAME",
+		pers."PERSON_NUM",
+		pers."BIRTH_DT",
+		pers."STD_PERSON_GN",
+		pers."STD_PERSON_FN_FULL"
+	FROM "osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION" as org
+		INNER JOIN  "osr.scv.org.foundation.db.staging.synonyms::ASIC_XREF" as xref
+		ON CONCAT('O',RIGHT(CONCAT('0000000000', org."ORG_NUMBER"), 9)) = xref."OWNER_SOURCE_ID"
+			INNER JOIN "osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS" as addr
+			ON xref."ADDRESS_NUM" = addr."ADDRESS_NUMBER"
+				INNER JOIN "osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON" as pers
+				ON xref."MEMBER_SOURCE_ID" = CONCAT('P',RIGHT(CONCAT('0000000000', pers."PERSON_NUM"), 9))
+					INNER JOIN (SELECT "ABN", "ACN" FROM :lt_rms_list) as rms
+					ON (CASE WHEN org."ABN" = '' THEN NULL ELSE org.ABN END) = IFNULL(rms."ABN",'') OR (CASE WHEN org."ORG_NUMBER" = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms."ACN",'')
+				where xref."XREF_ROLE" IN ('DR','PA','RG')
+				AND org."ORG_END_DATE" = '999999'
+				AND xref."REC_END_DATE" = '999999'
+;
+
+
+END

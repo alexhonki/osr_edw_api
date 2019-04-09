@@ -1,0 +1,47 @@
+ID: OSR_API
+_schema-version: '2.1'
+version: 0.0.1
+
+modules:
+ - name: OSR_API-Persistence
+   type: hdb
+   path: Persistence
+   requires:
+      - name: OsrApiContainer
+        properties:
+          TARGET_CONTAINER: '~{hdi-container-name}'
+      - name: OSR-EDW-PLATFORM-grantor
+        group: SERVICE_REPLACEMENTS
+        properties:
+          key: logical-OSR-EDW-PLATFORM-grantor
+          service: '~{OSR-EDW-PLATFORM-grantor-service}'
+ - name: OSR_API-Services
+   type: nodejs
+   path: Services
+   provides:
+    - name: Services_api
+      properties:
+         url: ${default-url}
+
+ - name: OSR_API-Web
+   type: html5
+   path: Web
+   requires:
+     - name: Services_api
+       properties:
+         name: Services_url
+         url: '~{url}'
+         forwardAuthToken: false
+       group: destinations   
+
+resources:
+  - name: OsrApiContainer
+    properties:
+      hdi-container-name: '${service-name}'
+    type: com.sap.xs.hdi-container
+  - name: OSR-EDW-PLATFORM-grantor
+    properties:
+      OSR-EDW-PLATFORM-grantor-service: '${service-name}'
+    parameters:
+      service-name: OSR_EDW_PLATFORM-deploy
+    type: org.cloudfoundry.existing-service    
