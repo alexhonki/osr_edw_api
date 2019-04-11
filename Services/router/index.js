@@ -22,5 +22,8 @@ module.exports = function(app) {
 
 	// For search api
 	app.use("/osr/api/search", require("./routes/FlexibleDebt/search")());
+	
+	// Set URL paths
+	app.use("/osr/api/flexibleDebt", require("./routes/FlexibleDebt/flexibleDebt")());
 
 };
