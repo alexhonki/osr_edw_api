@@ -75,9 +75,60 @@ module.exports = {
 		return companyQuery;
 		
 		
+	},  
+	
+	_generateDirectorStatement: function (oPayload){
+	
+	let directorQuery = 		"SELECT DISTINCT "+
+								"org.ORG_NUMBER, "+
+								"org.ABN, "+
+								"org.STD_FIRM, "+
+								"org.ORG_STATUS, "+
+								"org.ORG_END_DATE, "+
+								"org.REGN_END_DT, "+
+								"xref.OWNER_SOURCE_ID, "+
+								"xref.XREF_ROLE, "+
+								"xref.MEMBER_SOURCE_ID, "+
+								"xref.ROLE_START_DT, "+
+								"xref.XREF_END_DT, "+
+								"xref.REC_END_DATE, "+
+								"addr.STD_ADDR_COUNTRY_NAME, "+
+								"addr.STD_ADDR_LOCALITY, "+
+								"addr.STD_ADDR_REGION, "+
+								"addr.STD_ADDR_POSTCODE1, "+
+								"addr.STD_ADDR_POSTCODE2, "+
+								"addr.STD_ADDR_POSTCODE_FULL, "+
+								"addr.STD_ADDR_ADDRESS_DELIVERY, "+
+								"addr.STD_ADDR_PRIM_ADDRESS, "+
+								"addr.STD_ADDR_BUILDING_NAME, "+
+								"addr.STD_ADDR_PRIM_NAME, "+
+								"addr.STD_ADDR_PRIM_NAME_FULL, "+
+								"addr.STD_ADDR_PRIM_TYPE, "+
+								"addr.STD_ADDR_PRIM_PREFIX, "+
+								"addr.STD_ADDR_PRIM_POSTFIX, "+
+								"addr.STD_ADDR_PRIM_NUMBER, "+
+								"addr.STD_ADDR_SINGLE_ADDRESS, "+
+								"addr.STD_ADDR_COUNTRY_2CHAR, "+
+								"pers.PERSON_NUM, "+
+								"pers.BIRTH_DT, "+
+								"pers.STD_PERSON_GN, "+
+								"pers.STD_PERSON_FN_FULL "+
+							"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
+								"INNER JOIN  \"osr.scv.org.foundation.db.staging.synonyms::ASIC_XREF\" as xref "+
+								"ON CONCAT('O',RIGHT(CONCAT('0000000000', org.ORG_NUMBER), 9)) = xref.OWNER_SOURCE_ID "+
+									"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS\" as addr "+
+									"ON xref.ADDRESS_NUM = addr.ADDRESS_NUMBER "+
+										"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON\" as pers "+
+										"ON xref.MEMBER_SOURCE_ID = CONCAT('P',RIGHT(CONCAT('0000000000', pers.PERSON_NUM), 9)) "+
+											"INNER JOIN (SELECT ABN, ACN FROM (SELECT * FROM ("+ oPayload +"))) as rms "+
+											"ON (CASE WHEN org.ABN = '' THEN NULL ELSE org.ABN END) = IFNULL(rms.ABN,'') OR (CASE WHEN org.ORG_NUMBER = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms.ACN,'') "+
+										"where xref.XREF_ROLE IN ('DR','PA','RG') "+
+										"AND org.ORG_END_DATE = '999999' "+
+										"AND xref.REC_END_DATE = '999999' ";
+	return directorQuery;
+	
 	},   
    
-    
 	getCompany: function(oRequest, oResponse) {
  
     let sRMSQuery = this._checkRequest(oRequest, oResponse, oRequest.query);
@@ -118,11 +169,49 @@ module.exports = {
     ], function(err, result) {
       let temp = 1;
     });
+  },
+  
+	getDirector: function(oRequest, oResponse) {
+ 
+    let sRMSQuery = this._checkRequest(oRequest, oResponse, oRequest.query);
+	let directorQuery = this._generateDirectorStatement(sRMSQuery);				
+					
 
-//	let sRMSQuery = "SELECT TOP 1 PARTNER, TYPE, NAME_ORG1"+
-//					"FROM \"osr.scv.org.foundation.db.propagation.synonyms::RMS_BUT000_ORG\" ";
-//	return sRMSQuery;
-  }
+    let client = oRequest.db;
+    let oController = this;
+    async.waterfall([
+
+      function prepare(callback) {
+        client.prepare(
+          directorQuery,
+          function(err, statement) {
+            callback(null, err, statement);
+          });
+      },
+
+      function execute(err, statement, callback) {
+        statement.exec([], function(execErr, results) {
+          callback(null, execErr, results);
+        });
+      },
+      function response(err, results, callback) {
+        if (err) {
+          oResponse.type("text/plain").status(500).send("ERROR: " + err.toString());
+          return;
+        } else {
+          let oFinalResult = results
+          let result = JSON.stringify({
+            Total: results.length,
+            Results: oFinalResult
+          });
+          oResponse.type("application/json").status(200).send(result);
+        }
+        callback(null, results);
+      }
+    ], function(err, result) {
+      let temp = 1;
+    });
+  },  
 	
 
   };

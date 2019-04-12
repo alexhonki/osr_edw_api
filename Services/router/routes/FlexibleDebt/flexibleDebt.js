@@ -12,10 +12,17 @@ module.exports = function() {
 		res.send("Flexible Debt API");
 	});
 
-	//for execution of search
+	//for execution of Company
 	app.get("/company", function(req, res) {
 	//	res.send("Instantiation of Services getCompany")
 		flexibleDebtHelper.getCompany(req, res);
+
+	});
+	
+	//for execution of Directors
+	app.get("/director", function(req, res) {
+	//	res.send("Instantiation of Services getCompany")
+		flexibleDebtHelper.getDirector(req, res);
 
 	});
 	return app;
