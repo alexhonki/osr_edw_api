@@ -118,7 +118,7 @@ module.exports = {
 								"ON CONCAT('O',RIGHT(CONCAT('0000000000', org.ORG_NUMBER), 9)) = xref.OWNER_SOURCE_ID "+
 									"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS\" as addr "+
 									"ON xref.ADDRESS_NUM = addr.ADDRESS_NUMBER "+
-										"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON\" as pers "+
+										"LEFT OUTER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON\" as pers "+
 										"ON RIGHT(xref.\"MEMBER_SOURCE_ID\",9) = pers.\"PERSON_NUM\" "+
 											"INNER JOIN (SELECT ABN, ACN FROM (SELECT * FROM ("+ oPayload +"))) as rms "+
 											"ON (CASE WHEN org.ABN = '' THEN NULL ELSE org.ABN END) = IFNULL(rms.ABN,'') OR (CASE WHEN org.ORG_NUMBER = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms.ACN,'') "+
