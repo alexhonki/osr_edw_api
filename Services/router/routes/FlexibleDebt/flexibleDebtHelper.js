@@ -119,7 +119,7 @@ module.exports = {
 									"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS\" as addr "+
 									"ON xref.ADDRESS_NUM = addr.ADDRESS_NUMBER "+
 										"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON\" as pers "+
-										"ON xref.MEMBER_SOURCE_ID = CONCAT('P',RIGHT(CONCAT('0000000000', pers.PERSON_NUM), 9)) "+
+										"ON RIGHT(xref.\"MEMBER_SOURCE_ID\",9) = pers.\"PERSON_NUM\" "+
 											"INNER JOIN (SELECT ABN, ACN FROM (SELECT * FROM ("+ oPayload +"))) as rms "+
 											"ON (CASE WHEN org.ABN = '' THEN NULL ELSE org.ABN END) = IFNULL(rms.ABN,'') OR (CASE WHEN org.ORG_NUMBER = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms.ACN,'') "+
 										"where xref.XREF_ROLE IN ('DR','PA','RG') "+
