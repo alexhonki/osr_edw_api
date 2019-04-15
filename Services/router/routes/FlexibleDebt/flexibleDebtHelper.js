@@ -84,25 +84,19 @@ module.exports = {
 								"org.ABN, "+
 								"org.STD_FIRM, "+
 								"org.ORG_STATUS, "+
-								"org.ORG_END_DATE, "+
 								"org.REGN_END_DT, "+
 								"xref.OWNER_SOURCE_ID, "+
 								"xref.XREF_ROLE, "+
 								"xref.MEMBER_SOURCE_ID, "+
 								"xref.ROLE_START_DT, "+
 								"xref.XREF_END_DT, "+
-								"xref.REC_END_DATE, "+
 								"addr.STD_ADDR_COUNTRY_NAME, "+
 								"addr.STD_ADDR_LOCALITY, "+
 								"addr.STD_ADDR_REGION, "+
 								"addr.STD_ADDR_POSTCODE1, "+
 								"addr.STD_ADDR_POSTCODE2, "+
-								"addr.STD_ADDR_POSTCODE_FULL, "+
-								"addr.STD_ADDR_ADDRESS_DELIVERY, "+
-								"addr.STD_ADDR_PRIM_ADDRESS, "+
 								"addr.STD_ADDR_BUILDING_NAME, "+
 								"addr.STD_ADDR_PRIM_NAME, "+
-								"addr.STD_ADDR_PRIM_NAME_FULL, "+
 								"addr.STD_ADDR_PRIM_TYPE, "+
 								"addr.STD_ADDR_PRIM_PREFIX, "+
 								"addr.STD_ADDR_PRIM_POSTFIX, "+
