@@ -47,6 +47,7 @@ module.exports = {
 										"pers.\"PERSON_NUM\", "+
 										"pers.\"BIRTH_DT\", "+
 										"pers.\"STD_PERSON_GN\", "+
+										"'' as \"STD_PERSON_GN2\", "+
 										"pers.\"STD_PERSON_FN_FULL\" "+
 									"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
 									"INNER JOIN  \"osr.scv.org.foundation.db.staging.synonyms::ASIC_XREF\" as xref "+
