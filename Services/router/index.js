@@ -20,10 +20,12 @@ module.exports = function(app) {
 	app.use("/api/static", express.static("api"));
 	app.use("/scv/org/api/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
-	// For search api
+	// Flexible Dept API
 	app.use("/osr/api/search", require("./routes/FlexibleDebt/search")());
-	
-	// Set URL paths
 	app.use("/osr/api/flexibleDebt", require("./routes/FlexibleDebt/flexibleDebt")());
+	
+	//ASIC Directors
+	app.use("/osr/api/directorInfo", require("./routes/directorInfo/directorInfo")());
+	
 
 };
