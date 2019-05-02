@@ -164,9 +164,9 @@ module.exports = {
 								"addr.STD_ADDR_COUNTRY_2CHAR, "+
 								"pers.PERSON_NUM, "+
 								"pers.BIRTH_DT, "+
-								"pers.STD_PERSON_GN, "+
-								"'' as STD_PERSON_GN2, "+
-								"pers.STD_PERSON_FN_FULL "+
+								"pers.\"GIVEN_NAME1\" as \"STD_PERSON_GN\", "+
+								"pers.\"GIVEN_NAME2\" as \"STD_PERSON_GN2\", "+
+								"pers.\"SURNAME\" as \"STD_PERSON_FN_FULL\" "+
 							"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
 								"INNER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
 								"ON org.\"ORG_NUMBER\" = comp.ACN "+
