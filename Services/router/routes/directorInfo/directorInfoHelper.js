@@ -52,7 +52,7 @@ module.exports = {
 									"SELECT TOP 1 DISTINCT "+
 										"\"NAME\", "+
 										"MAX (\"Z_RUN_SEQ_ID\") "+
-									"FROM \"osr.scv.org.foundation.db.staging.synonyms::ASIC_XREF\" "+
+									"FROM \"osr.scv.org.foundation.db.source.synonyms::ASIC_XREF\" "+
 									"GROUP BY NAME  "+
 									"ORDER BY MAX (\"Z_RUN_SEQ_ID\") DESC)) ";	
 		return currentAsicXref;						
@@ -109,7 +109,7 @@ module.exports = {
 									"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
 									"INNER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
 									"ON org.\"ORG_NUMBER\" = comp.ACN "+
-										"INNER JOIN  \"osr.scv.org.foundation.db.staging.synonyms::ASIC_XREF\" as xref "+
+										"INNER JOIN  \"osr.scv.org.foundation.db.source.synonyms::ASIC_XREF\" as xref "+
 										"ON CONCAT('O',RIGHT(CONCAT('0000000000', org.\"ORG_NUMBER\"), 9)) = xref.\"OWNER_SOURCE_ID\" "+
 											"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON\" as pers "+
 											"ON RIGHT(xref.\"MEMBER_SOURCE_ID\",9) = pers.\"PERSON_NUM\" "+

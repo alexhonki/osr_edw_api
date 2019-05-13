@@ -23,6 +23,12 @@
       "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
     }
   },
+  "osr.scv.org.foundation.db.source.synonyms::ASIC_XREF": {
+    "target": {
+      "object": "osr.edw.source.md.asic.proxy::CV_XREF",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  },  
   "osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS": {
     "target": {
       "object": "osr.edw.propagation.md.asic.proxy::CV_ADDRESS",
