@@ -115,7 +115,8 @@ module.exports = {
 											"ON RIGHT(xref.\"MEMBER_SOURCE_ID\",9) = pers.\"PERSON_NUM\" "+
 									"where xref.XREF_ROLE = 'DR' "+
 									"AND org.ORG_END_DATE = '999999' "+
-									"AND xref.REC_END_DATE = '999999' "+
+									"AND xref.REC_END_DT = '9999-12-31' "+
+									"AND xref.XREF_END_DT = '9999-12-31' "+
 									"AND "+ oPayload + " " + 
 									"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)" + " AND  comp.NAME = " + this._getCurrentAsicComFile() ;
 									

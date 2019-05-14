@@ -180,7 +180,8 @@ module.exports = {
 												"ON (CASE WHEN org.ABN = '' THEN NULL ELSE org.ABN END) = IFNULL(rms.ABN,'') OR (CASE WHEN org.ORG_NUMBER = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms.ACN,'') "+
 											"where xref.XREF_ROLE IN ('DR','PA','RG') "+
 											"AND org.ORG_END_DATE = '999999' "+
-											"AND xref.REC_END_DATE = '999999' "+
+											"AND xref.REC_END_DT = '9999-12-31' "+
+											"AND xref.XREF_END_DT = '9999-12-31' "+
 											"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND  (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)" + " AND comp.NAME = " + this._getCurrentAsicComFile()  + " AND  addr.NAME = " + this._getCurrentAsicAddrFile(); ;
 	return directorQuery;
 	
