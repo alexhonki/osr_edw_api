@@ -99,7 +99,7 @@ module.exports = {
 										"org.\"ORG_NUMBER\", "+
 										"org.\"ABN\", "+
 										"org.\"STD_FIRM\", "+
-										"comp.\"ORG_STATUS\", "+
+										"COALESCE(comp.ORG_STATUS, org.ORG_STATUS) AS ORG_STATUS, "+
 										"org.\"REGN_END_DT\", "+
 										"pers.\"PERSON_NUM\", "+
 										"pers.\"BIRTH_DT\", "+
@@ -107,7 +107,7 @@ module.exports = {
 										"pers.\"GIVEN_NAME2\" as \"STD_PERSON_GN2\", "+
 										"pers.\"SURNAME\" as \"STD_PERSON_FN_FULL\" "+
 									"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
-									"INNER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
+									"LEFT OUTER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
 									"ON org.\"ORG_NUMBER\" = comp.ACN "+
 										"INNER JOIN  \"osr.scv.org.foundation.db.source.synonyms::ASIC_XREF\" as xref "+
 										"ON CONCAT('O',RIGHT(CONCAT('0000000000', org.\"ORG_NUMBER\"), 9)) = xref.\"OWNER_SOURCE_ID\" "+
@@ -118,7 +118,7 @@ module.exports = {
 									"AND xref.REC_END_DT = '9999-12-31' "+
 									"AND xref.XREF_END_DT = '9999-12-31' "+
 									"AND "+ oPayload + " " + 
-									"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)" + " AND  comp.NAME = " + this._getCurrentAsicComFile() ;
+									"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)"  ;
 									
 		return directorPersonQuery;
 

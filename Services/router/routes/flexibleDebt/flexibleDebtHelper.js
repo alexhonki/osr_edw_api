@@ -96,7 +96,7 @@ module.exports = {
 									"SELECT TOP 1 DISTINCT "+
 										"\"NAME\", "+
 										"MAX (\"Z_RUN_SEQ_ID\") "+
-									"FROM \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" "+
+									"FROM \"osr.scv.org.foundation.db.source.synonyms::ASIC_COMPANY_REGISTER\" "+
 									"GROUP BY NAME  "+
 									"ORDER BY MAX (\"Z_RUN_SEQ_ID\") DESC)) ";
 		return currentAsicCom;							
@@ -121,15 +121,15 @@ module.exports = {
 								"org.\"ORG_NUMBER\", "+
 								"org.\"ABN\", "+
 								"org.\"STD_FIRM\", "+
-								"comp.\"ORG_STATUS\", "+
+								"COALESCE(comp.ORG_STATUS, org.ORG_STATUS) AS ORG_STATUS, "+
 								"org.\"REGN_END_DT\" "+
 							"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
-								"INNER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
+								"LEFT OUTER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
 								"ON org.\"ORG_NUMBER\" = comp.ACN "+
 									"INNER JOIN (SELECT \"ABN\", \"ACN\" FROM (SELECT * FROM ("+ oPayload +"))) as rms "+
 									"ON (CASE WHEN org.\"ABN\" = '' THEN NULL ELSE org.ABN END) = IFNULL(rms.\"ABN\",'') OR (CASE WHEN org.\"ORG_NUMBER\" = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms.\"ACN\",'') "+
 									"WHERE org.\"ORG_END_DATE\" = '999999' "+
-									"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  comp.NAME = " + this._getCurrentAsicComFile();
+									"AND org.NAME = " + this._getCurrentAsicOrgFile();
 		
 		return companyQuery;
 		
@@ -142,7 +142,7 @@ module.exports = {
 								"org.ORG_NUMBER, "+
 								"org.ABN, "+
 								"org.STD_FIRM, "+
-								"comp.ORG_STATUS, "+
+								"COALESCE(comp.ORG_STATUS, org.ORG_STATUS) AS ORG_STATUS, "+
 								"org.REGN_END_DT, "+
 								"xref.OWNER_SOURCE_ID, "+
 								"xref.XREF_ROLE, "+
@@ -168,7 +168,7 @@ module.exports = {
 								"pers.\"GIVEN_NAME2\" as \"STD_PERSON_GN2\", "+
 								"pers.\"SURNAME\" as \"STD_PERSON_FN_FULL\" "+
 							"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
-								"INNER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
+								"LEFT OUTER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
 								"ON org.\"ORG_NUMBER\" = comp.ACN "+
 									"INNER JOIN  \"osr.scv.org.foundation.db.source.synonyms::ASIC_XREF\" as xref "+
 									"ON CONCAT('O',RIGHT(CONCAT('0000000000', org.ORG_NUMBER), 9)) = xref.OWNER_SOURCE_ID "+
@@ -182,7 +182,7 @@ module.exports = {
 											"AND org.ORG_END_DATE = '999999' "+
 											"AND xref.REC_END_DT = '9999-12-31' "+
 											"AND xref.XREF_END_DT = '9999-12-31' "+
-											"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND  (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)" + " AND comp.NAME = " + this._getCurrentAsicComFile()  + " AND  addr.NAME = " + this._getCurrentAsicAddrFile(); ;
+											"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND  (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)" + " AND  addr.NAME = " + this._getCurrentAsicAddrFile(); 
 	return directorQuery;
 	
 	},   

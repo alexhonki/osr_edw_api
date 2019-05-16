@@ -46,5 +46,11 @@
       "object": "osr.edw.staging.md.asic.proxy::CV_COMPANY_REGISTER",
       "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
     }
-  }
+  },
+   "osr.scv.org.foundation.db.source.synonyms::ASIC_COMPANY_REGISTER": {
+    "target": {
+      "object": "osr.edw.source.md.asic.proxy::CV_COMPANY_REGISTER",
+      "schema.configure": "logical-OSR-EDW-PLATFORM-grantor/schema"
+    }
+  }  
 }
