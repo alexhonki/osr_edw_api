@@ -65,4 +65,4 @@ resources:
     parameters:
       service-name: OSR_API-uaa
       service-plan: space
-      path: ./xs-security.json
+      path: xs-security.json
