@@ -19,7 +19,7 @@ module.exports = {
 				tag: "xsuaa"
 			}
 		}).uaa));
-		app.use(logging.expressMiddleware(appContext));
+		app.use(logging.middleware({ appContext: appContext }));
 		app.use(passport.initialize());
 		try {
 			var hanaOptions = xsenv.getServices({
