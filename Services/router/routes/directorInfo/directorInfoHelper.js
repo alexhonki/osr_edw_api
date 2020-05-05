@@ -158,6 +158,8 @@ module.exports = {
 	_generateScvDirectorPersonStatement: function (oPayload){
 	
 		let directorScvPersonQuery = 	"SELECT DISTINCT "+
+										"rms.SCV_ID, "+
+										"bp.source_id as PARTNER,  "+
 										"org.\"ORG_NUMBER\", "+
 										"org.\"ABN\", "+
 										"org.\"STD_FIRM\", "+
