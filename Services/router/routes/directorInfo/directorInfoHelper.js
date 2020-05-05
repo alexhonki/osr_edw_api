@@ -13,21 +13,18 @@ module.exports = {
     //do check for each variable being passed on.
     
     let asicFilter = "";
-    let scvFilter = "";
+
     
     if (oQuery.abn !== "" && oQuery.acn !== "") {
     	asicFilter = "(org.ABN = '" + oQuery.abn + "' OR ORG_NUMBER = '" + oQuery.acn + "')";
-    	scvFilter = "(b.ABN = '" + oQuery.abn + "' OR b.ACN = '" + oQuery.acn + "')";
     }
     
     if (oQuery.abn !== "" && oQuery.acn == "") {
     	asicFilter = "org.ABN = '" + oQuery.abn + "'";
-    	scvFilter = "b.ABN = '" + oQuery.abn + "'";
     }
     
     if (oQuery.abn == "" && oQuery.acn !== "") {
     	asicFilter = "ORG_NUMBER = '" + oQuery.acn + "'";
-    	scvFilter = "b.ACN = '" + oQuery.acn + "'";
     }
     
     //check for completely empty search with nothing 
@@ -56,7 +53,7 @@ module.exports = {
     	scvFilter = "b.ABN = '" + oQuery.abn + "'";
     }
     
-    if (oQuery.abn == "" && oQuery.acn !== "") 
+    if (oQuery.abn == "" && oQuery.acn !== "") {
     	scvFilter = "b.ACN = '" + oQuery.acn + "'";
     }
     

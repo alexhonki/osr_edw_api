@@ -16,6 +16,7 @@ module.exports = function() {
 	app.get("/person", function(req, res) {
 	//	res.send("Instantiation of Services getCompany")
 		directorInfoHelper.getPerson(req, res);
+	});	
 
 		//search for director using the scv
 	app.get("/scvperson", function(req, res) {
