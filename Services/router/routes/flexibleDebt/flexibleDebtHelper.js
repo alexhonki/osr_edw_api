@@ -53,7 +53,7 @@ module.exports = {
 					"PARTNER, "+ 
 					"(CASE WHEN  TYPE = 'ZABN' THEN IDNUMBER ELSE NULL END) AS ABN, "+
 					"(CASE WHEN  TYPE = 'ZACN' THEN IDNUMBER ELSE NULL END) AS ACN "+
-					"FROM \"osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID\" "+
+					"FROM \"osr.api.db.staging.synonyms::RMS_BUT0ID\" "+
 					"where TYPE IN ('ZABN','ZACN') AND " + rmsFilter;
     return rmsFilter;
     }, 
@@ -63,7 +63,7 @@ module.exports = {
 									"SELECT TOP 1 DISTINCT "+
 										"\"NAME\", "+
 										"MAX (\"Z_RUN_SEQ_ID\") "+
-									"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" "+
+									"FROM \"osr.api.db.propagation.synonyms::ASIC_ORGANISATION\" "+
 									"GROUP BY NAME  "+
 									"ORDER BY MAX (\"Z_RUN_SEQ_ID\") DESC)) ";
 		return currentAsicOrg;							
@@ -74,7 +74,7 @@ module.exports = {
 									"SELECT TOP 1 DISTINCT "+
 										"\"NAME\", "+
 										"MAX (\"Z_RUN_SEQ_ID\") "+
-									"FROM \"osr.scv.org.foundation.db.source.synonyms::ASIC_XREF\" "+
+									"FROM \"osr.api.db.source.synonyms::ASIC_XREF\" "+
 									"GROUP BY NAME  "+
 									"ORDER BY MAX (\"Z_RUN_SEQ_ID\") DESC)) ";	
 		return currentAsicXref;						
@@ -85,7 +85,7 @@ module.exports = {
 									"SELECT TOP 1 DISTINCT "+
 										"\"NAME\", "+
 										"MAX (\"Z_RUN_SEQ_ID\") "+
-									"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON\" "+
+									"FROM \"osr.api.db.propagation.synonyms::ASIC_PERSON\" "+
 									"GROUP BY NAME  "+
 									"ORDER BY MAX (\"Z_RUN_SEQ_ID\") DESC)) ";
 		return currentAsicPer;						
@@ -96,7 +96,7 @@ module.exports = {
 									"SELECT TOP 1 DISTINCT "+
 										"\"NAME\", "+
 										"MAX (\"Z_RUN_SEQ_ID\") "+
-									"FROM \"osr.scv.org.foundation.db.source.synonyms::ASIC_COMPANY_REGISTER\" "+
+									"FROM \"osr.api.db.source.synonyms::ASIC_COMPANY_REGISTER\" "+
 									"GROUP BY NAME  "+
 									"ORDER BY MAX (\"Z_RUN_SEQ_ID\") DESC)) ";
 		return currentAsicCom;							
@@ -108,7 +108,7 @@ module.exports = {
 									"SELECT TOP 1 DISTINCT "+
 										"\"NAME\", "+
 										"MAX (\"Z_RUN_SEQ_ID\") "+
-									"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS\" "+
+									"FROM \"osr.api.db.propagation.synonyms::ASIC_ADDRESS\" "+
 									"GROUP BY NAME  "+
 									"ORDER BY MAX (\"Z_RUN_SEQ_ID\") DESC)) ";
 		return currentAsicAdd;
@@ -123,8 +123,8 @@ module.exports = {
 								"org.\"STD_FIRM\", "+
 								"COALESCE(comp.ORG_STATUS, org.ORG_STATUS) AS ORG_STATUS, "+
 								"org.\"REGN_END_DT\" "+
-							"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
-								"LEFT OUTER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
+							"FROM \"osr.api.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
+								"LEFT OUTER JOIN \"osr.api.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
 								"ON org.\"ORG_NUMBER\" = comp.ACN "+
 									"INNER JOIN (SELECT \"ABN\", \"ACN\" FROM (SELECT * FROM ("+ oPayload +"))) as rms "+
 									"ON (CASE WHEN org.\"ABN\" = '' THEN NULL ELSE org.ABN END) = IFNULL(rms.\"ABN\",'') OR (CASE WHEN org.\"ORG_NUMBER\" = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms.\"ACN\",'') "+
@@ -167,14 +167,14 @@ module.exports = {
 								"pers.\"GIVEN_NAME1\" as \"STD_PERSON_GN\", "+
 								"pers.\"GIVEN_NAME2\" as \"STD_PERSON_GN2\", "+
 								"pers.\"SURNAME\" as \"STD_PERSON_FN_FULL\" "+
-							"FROM \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
-								"LEFT OUTER JOIN \"osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
+							"FROM \"osr.api.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
+								"LEFT OUTER JOIN \"osr.api.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
 								"ON org.\"ORG_NUMBER\" = comp.ACN "+
-									"INNER JOIN  \"osr.scv.org.foundation.db.source.synonyms::ASIC_XREF\" as xref "+
+									"INNER JOIN  \"osr.api.db.source.synonyms::ASIC_XREF\" as xref "+
 									"ON CONCAT('O',RIGHT(CONCAT('0000000000', org.ORG_NUMBER), 9)) = xref.OWNER_SOURCE_ID "+
-										"INNER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS\" as addr "+
+										"INNER JOIN \"osr.api.db.propagation.synonyms::ASIC_ADDRESS\" as addr "+
 										"ON xref.ADDRESS_NUM = addr.ADDRESS_NUMBER "+
-											"LEFT OUTER JOIN \"osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON\" as pers "+
+											"LEFT OUTER JOIN \"osr.api.db.propagation.synonyms::ASIC_PERSON\" as pers "+
 											"ON RIGHT(xref.\"MEMBER_SOURCE_ID\",9) = pers.\"PERSON_NUM\" "+
 												"INNER JOIN (SELECT ABN, ACN FROM (SELECT * FROM ("+ oPayload +"))) as rms "+
 												"ON (CASE WHEN org.ABN = '' THEN NULL ELSE org.ABN END) = IFNULL(rms.ABN,'') OR (CASE WHEN org.ORG_NUMBER = '' THEN NULL ELSE org.ORG_NUMBER END) = IFNULL(rms.ACN,'') "+

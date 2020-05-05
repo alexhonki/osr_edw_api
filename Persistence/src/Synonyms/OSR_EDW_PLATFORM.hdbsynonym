@@ -1,11 +1,11 @@
 {
-  "osr.scv.org.foundation.db.propagation.synonyms::RMS_BUT000_ORG":{},
-  "osr.scv.org.foundation.db.staging.synonyms::RMS_BUT0ID":{},
-  "osr.scv.org.foundation.db.propagation.synonyms::ASIC_ORGANISATION":{},
-  "osr.scv.org.foundation.db.staging.synonyms::ASIC_XREF":{},
-  "osr.scv.org.foundation.db.propagation.synonyms::ASIC_ADDRESS":{},
-  "osr.scv.org.foundation.db.propagation.synonyms::ASIC_PERSON":{},
-  "osr.scv.org.foundation.db.staging.synonyms::ASIC_COMPANY_REGISTER":{},
-  "osr.scv.org.foundation.db.source.synonyms::ASIC_XREF":{},
-  "osr.scv.org.foundation.db.source.synonyms::ASIC_COMPANY_REGISTER":{}
+  "osr.api.db.propagation.synonyms::RMS_BUT000_ORG":{},
+  "osr.api.db.staging.synonyms::RMS_BUT0ID":{},
+  "osr.api.db.propagation.synonyms::ASIC_ORGANISATION":{},
+  "osr.api.db.staging.synonyms::ASIC_XREF":{},
+  "osr.api.db.propagation.synonyms::ASIC_ADDRESS":{},
+  "osr.api.db.propagation.synonyms::ASIC_PERSON":{},
+  "osr.api.db.staging.synonyms::ASIC_COMPANY_REGISTER":{},
+  "osr.api.db.source.synonyms::ASIC_XREF":{},
+  "osr.api.db.source.synonyms::ASIC_COMPANY_REGISTER":{}
 }

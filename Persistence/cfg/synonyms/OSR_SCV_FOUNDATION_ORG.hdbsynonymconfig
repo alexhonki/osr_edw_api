@@ -1,0 +1,8 @@
+{
+	"osr.api.db.synonyms::SCV_Organisation": {
+		"target": {
+			"object": "osr.scv.org.foundation.db.data::SCVFoundation.Organisation",
+			"schema.configure": "logical-OSR-SCV-FOUNDATION-ORG-grantor/schema"
+		}
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"logical-OSR-SCV-FOUNDATION-ORG-grantor": {
+		"object_owner": { 
+			"container_roles": [
+				"osr.scv.org.foundation.db.roles::external_access_api_admin_g#"
+			]
+		},
+		"application_user": {
+			"container_roles": [
+				 "osr.scv.org.foundation.db.roles::external_access_api_admin"
+			]
+		}
+	}
+}

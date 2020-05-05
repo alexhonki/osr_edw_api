@@ -14,6 +14,16 @@ modules:
         properties:
           key: logical-OSR-EDW-PLATFORM-grantor
           service: '~{OSR-EDW-PLATFORM-grantor-service}'
+      - name: OSR_SCV_FOUNDATION-grantor
+        group: SERVICE_REPLACEMENTS
+        properties:
+          key: logical-OSR-SCV-FOUNDATION-grantor
+          service: '~{OSR_SCV_FOUNDATION-grantor-service}'
+      - name: OSR_SCV_FOUNDATION_ORG-grantor
+        group: SERVICE_REPLACEMENTS
+        properties:
+          key: logical-OSR-SCV-FOUNDATION-ORG-grantor
+          service: '~{OSR_SCV_FOUNDATION_ORG-grantor-service}'           
   - name: OSR_API-Services
     type: nodejs
     path: Services
@@ -53,6 +63,18 @@ resources:
     parameters:
       service-name: OSR_EDW_PLATFORM-deploy
     type: org.cloudfoundry.existing-service
+  - name: OSR_SCV_FOUNDATION-grantor
+    properties:
+      OSR_SCV_FOUNDATION-grantor-service: '${service-name}'
+    parameters:
+      service-name: OSR_SCV_FOUNDATION-deploy
+    type: org.cloudfoundry.existing-service
+  - name: OSR_SCV_FOUNDATION_ORG-grantor
+    properties:
+      OSR_SCV_FOUNDATION_ORG-grantor-service: '${service-name}'
+    parameters:
+      service-name: OSR_SCV_FOUNDATION_ORG-deploy
+    type: org.cloudfoundry.existing-service        
   - name: sapui5-lib
     type: configuration
     description: SAPUI5 as a central service with version of min 1.52.11
