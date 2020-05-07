@@ -186,8 +186,7 @@ module.exports = {
 											"from \"osr.api.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+ 
 											"LEFT OUTER JOIN (select distinct scv_id, abn, acn from \"osr.api.db.synonyms::SCV_Organisation\" where ABN IS NOT NULL) as scv "+
 											"on org.ORG_NUMBER = scv.ACN "+
-											"where "+ 
-											"(CASE WHEN org.ABN = '' THEN scv.ABN ELSE org.ABN END = '41075007500' OR org.ORG_NUMBER = '108574054') "+
+											"where "+ oPayload + " " + 
 										") as scvorg "+	
 										 "LEFT OUTER JOIN (select distinct "+
 																"scv_id, "+ 
