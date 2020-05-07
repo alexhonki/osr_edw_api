@@ -46,15 +46,15 @@ module.exports = {
     let scvFilter = "";
     
     if (oQuery.abn !== "" && oQuery.acn !== "") {
-    	scvFilter = "(CASE WHEN org.ABN = '' THEN scv.ABN ELSE org.ABN END = '" + oQuery.abn + "' OR org.ORG_NUMBER = '" + oQuery.acn + "')";
+    	scvFilter = "(b.ABN = '" + oQuery.abn + "' OR b.ACN = '" + oQuery.acn + "')";
     }
     
     if (oQuery.abn !== "" && oQuery.acn == "") {
-    	scvFilter = "CASE WHEN org.ABN = '' THEN scv.ABN ELSE org.ABN END = '" + oQuery.abn + "'";
+    	scvFilter = "b.ABN = '" + oQuery.abn + "'";
     }
     
     if (oQuery.abn == "" && oQuery.acn !== "") {
-    	scvFilter = "org.ORG_NUMBER = '" + oQuery.acn + "'";
+    	scvFilter = "b.ACN = '" + oQuery.acn + "'";
     }
     
     //check for completely empty search with nothing 
@@ -155,53 +155,51 @@ module.exports = {
 
 
 	},  
-	_generateScvDirectorPersonStatement: function (oPayload){ 
+	_generateScvDirectorPersonStatement: function (oPayload){
 	
-		let directorScvPersonQuery = 		"SELECT DISTINCT "+
-											"scvorg.SCV_ID, "+
-											"bp.source_id as PARTNER, "+
-											"scvorg.ORG_NUMBER, "+ 
-											"scvorg.ABN, "+ 
-											"scvorg.STD_FIRM, "+
-											"COALESCE(comp.ORG_STATUS, scvorg.ORG_STATUS) AS ORG_STATUS, "+
-											"scvorg.REGN_END_DT, "+ 
-											"pers.PERSON_NUM, "+ 
-											"pers.BIRTH_DT, "+ 
-											"pers.GIVEN_NAME1 as STD_PERSON_GN, "+ 
-											"pers.GIVEN_NAME2 as STD_PERSON_GN2, "+ 
-											"pers.SURNAME as STD_PERSON_FN_FULL "+
-											"from ( "+
-													"SELECT DISTINCT "+
-													"scv.SCV_ID, "+ 
-													"org.ORG_NUMBER, "+ 
-													"CASE WHEN org.ABN = '' THEN scv.ABN ELSE org.ABN END as ABN, "+ 
-													"org.STD_FIRM, "+ 
-													"org.ORG_STATUS, "+ 
-													"org.REGN_END_DT, "+ 
-													"ORG_END_DATE "+
-													"from \"osr.api.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
-													"LEFT OUTER JOIN (select distinct scv_id, abn, acn from \"osr.api.db.synonyms::SCV_Organisation\" where ABN IS NOT NULL) as scv "+
-													"on org.ORG_NUMBER = scv.ACN "+
-													"where " + oPayload + " " + 
-												") as scvorg "+
-												 "LEFT OUTER JOIN (select distinct "+
-																	"scv_id, "+
-																	"source_id "+
-																"from \"osr.api.db.synonyms::SCV_Organisation\" "+
-																"where source = 'RMS' "+
-																")as bp "+
-														"on scvorg.scv_id = bp.scv_id "+
-														"LEFT OUTER JOIN \"osr.api.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
-														"ON scvorg.ORG_NUMBER = comp.ACN "+ 
-															"INNER JOIN \"osr.api.db.source.synonyms::ASIC_XREF\" as xref "+ 
-															"ON CONCAT('O',RIGHT(CONCAT('0000000000', scvorg.ORG_NUMBER), 9)) = xref.OWNER_SOURCE_ID "+ 
-																"INNER JOIN \"osr.api.db.propagation.synonyms::ASIC_PERSON\" as pers "+ 
-																"ON RIGHT(xref.MEMBER_SOURCE_ID,9) = pers.PERSON_NUM "+	
-											"where xref.XREF_ROLE = 'DR' "+
-											"AND scvorg.ORG_END_DATE = '999999' "+ 
-											"AND xref.REC_END_DT = '9999-12-31' "+ 
-											"AND xref.XREF_END_DT = '9999-12-31'  "+
-											"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)"  ;
+		let directorScvPersonQuery = 	"SELECT DISTINCT "+
+										"rms.SCV_ID, "+
+										"bp.source_id as PARTNER,  "+
+										"org.\"ORG_NUMBER\", "+
+										"org.\"ABN\", "+
+										"org.\"STD_FIRM\", "+
+										"COALESCE(comp.ORG_STATUS, org.ORG_STATUS) AS ORG_STATUS, "+
+										"org.\"REGN_END_DT\", "+
+										"pers.\"PERSON_NUM\", "+
+										"pers.\"BIRTH_DT\", "+
+										"pers.\"GIVEN_NAME1\" as \"STD_PERSON_GN\", "+
+										"pers.\"GIVEN_NAME2\" as \"STD_PERSON_GN2\", "+
+										"pers.\"SURNAME\" as \"STD_PERSON_FN_FULL\" "+
+									"FROM \"osr.api.db.propagation.synonyms::ASIC_ORGANISATION\" as org "+
+									"LEFT OUTER JOIN \"osr.api.db.staging.synonyms::ASIC_COMPANY_REGISTER\" as comp "+
+									"ON org.\"ORG_NUMBER\" = comp.ACN "+
+										"INNER JOIN  \"osr.api.db.source.synonyms::ASIC_XREF\" as xref "+
+										"ON CONCAT('O',RIGHT(CONCAT('0000000000', org.\"ORG_NUMBER\"), 9)) = xref.\"OWNER_SOURCE_ID\" "+
+											"INNER JOIN \"osr.api.db.propagation.synonyms::ASIC_PERSON\" as pers "+
+											"ON RIGHT(xref.\"MEMBER_SOURCE_ID\",9) = pers.\"PERSON_NUM\" "+
+												"INNER JOIN (select distinct "+
+															"rms.SCV_ID, "+
+															"rms.ACN "+
+															"FROM \"osr.api.db.synonyms::SCV_Organisation\" as rms "+
+															"INNER JOIN \"osr.api.db.synonyms::SCV_Organisation\" as b "+
+															"ON rms.SCV_ID = b.SCV_ID "+
+															"where " + oPayload + " " + 
+															"and rms.SOURCE ='ASIC' "+
+															") as rms "+
+												"ON org.ORG_NUMBER  = rms.ACN "+ 
+												"INNER JOIN (select "+ 
+																"scv_id, "+ 
+																"source, "+ 	
+																"source_id "+ 
+															"from \"osr.api.db.synonyms::SCV_Organisation\" "+
+															"where source = 'RMS' "+
+															")as bp "+
+												"on rms.scv_id = bp.scv_id "+
+									"where xref.XREF_ROLE = 'DR' "+
+									"AND org.ORG_END_DATE = '999999' "+
+									"AND xref.REC_END_DT = '9999-12-31' "+
+									"AND xref.XREF_END_DT = '9999-12-31' "+
+									"AND org.NAME = " + this._getCurrentAsicOrgFile() + " AND  xref.NAME = " + this._getCurrentAsicXrefFile() + " AND (pers.NAME = " + this._getCurrentAsicPerFile() + " OR pers.NAME is NULL)"  ;
 								
 		return directorScvPersonQuery;
 
@@ -253,7 +251,7 @@ module.exports = {
   	getScvPerson: function(oRequest, oResponse) {
  
     let sScvQuery = this._checkScvRequest(oRequest, oResponse, oRequest.query);
-	let directorScvPersonQuery = this._generateScvDirectorPersonStatement(sScvQuery);				
+	let directorPersonQuery = this._generateScvDirectorPersonStatement(sScvQuery);				
 					
 
     let client = oRequest.db;
@@ -262,7 +260,7 @@ module.exports = {
 
       function prepare(callback) {
         client.prepare(
-          directorScvPersonQuery,
+          directorPersonQuery,
           function(err, statement) {
             callback(null, err, statement);
           });
