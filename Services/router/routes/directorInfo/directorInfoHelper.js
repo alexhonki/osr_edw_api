@@ -253,7 +253,7 @@ module.exports = {
   	getScvPerson: function(oRequest, oResponse) {
  
     let sScvQuery = this._checkScvRequest(oRequest, oResponse, oRequest.query);
-	let directorPersonQuery = this._generateScvDirectorPersonStatement(sScvQuery);				
+	let directorScvPersonQuery = this._generateScvDirectorPersonStatement(sScvQuery);				
 					
 
     let client = oRequest.db;
@@ -262,7 +262,7 @@ module.exports = {
 
       function prepare(callback) {
         client.prepare(
-          directorPersonQuery,
+          directorScvPersonQuery,
           function(err, statement) {
             callback(null, err, statement);
           });
