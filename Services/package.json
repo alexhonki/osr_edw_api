@@ -4,7 +4,7 @@
 		"@sap/xsjs": "5.3.1",
 		"@sap/xsenv": "2.2.0",
 		"@sap/hdbext": "6.1.1",
-		"@sap/xssec": "2.2.4",
+		"@sap/xssec": "3.6.0",
 		"@sap/logging": "5.2.0",
 		"express": "4.16.4",
 		"passport": "0.4.0",
